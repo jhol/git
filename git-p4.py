@@ -401,7 +401,7 @@ def system(cmd, ignore_error=False, *k, **kw):
             ' '.join(cmd) if isinstance(cmd, list) else cmd))
     retcode = subprocess.call(cmd, *k, **kw)
     if retcode and not ignore_error:
-        raise CalledProcessError(retcode, cmd)
+        raise subprocess.CalledProcessError(retcode, cmd)
 
     return retcode
 
@@ -410,7 +410,7 @@ def p4_system(cmd, *k, **kw):
     real_cmd = p4_build_cmd(cmd)
     retcode = subprocess.call(real_cmd, *k, **kw)
     if retcode:
-        raise CalledProcessError(retcode, real_cmd)
+        raise subprocess.CalledProcessError(retcode, real_cmd)
 
 def die_bad_access(s):
     die("failure accessing depot: {0}".format(s.rstrip()))
@@ -4095,7 +4095,7 @@ class P4Clone(P4Sync):
             init_cmd.append("--bare")
         retcode = subprocess.call(init_cmd)
         if retcode:
-            raise CalledProcessError(retcode, init_cmd)
+            raise subprocess.CalledProcessError(retcode, init_cmd)
 
         if not P4Sync.run(self, depotPaths):
             return False
